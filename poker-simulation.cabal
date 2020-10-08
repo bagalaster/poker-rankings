@@ -1,0 +1,75 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 3d4d8cd4991831ac4c744c350416acb70f54864e5c6b61191c3a7bfa5d4fa902
+
+name:           poker-simulation
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/poker-rules-engine#readme>
+homepage:       https://github.com/bagalaster/poker-simulation#readme
+bug-reports:    https://github.com/bagalaster/poker-simulation/issues
+author:         Mac Bagwel
+maintainer:     bagwellmac@gmail.com
+copyright:      2020 Mac Bagwell
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/bagalaster/poker-simulation
+
+library
+  exposed-modules:
+      PokerCards
+      PokerEvaluator
+  other-modules:
+      Paths_poker_simulation
+  hs-source-dirs:
+      src
+  build-depends:
+      QuickCheck
+    , base >=4.7 && <5
+    , hspec
+    , random
+    , random-shuffle
+  default-language: Haskell2010
+
+executable poker-simulation-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_poker_simulation
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , base >=4.7 && <5
+    , hspec
+    , poker-simulation
+    , random
+    , random-shuffle
+  default-language: Haskell2010
+
+test-suite poker-simulation-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_poker_simulation
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , base >=4.7 && <5
+    , hspec
+    , poker-simulation
+    , random
+    , random-shuffle
+  default-language: Haskell2010
