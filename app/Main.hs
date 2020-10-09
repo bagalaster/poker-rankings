@@ -2,6 +2,7 @@ module Main where
 
 import PokerCards
 import PokerEvaluator
+import PokerHandsList
  
 simulateHand :: Card -> Card -> Card -> Card -> Int -> Ordering
 simulateHand a1 a2 b1 b2 n = evaluate (a1 : a2 : board) (b1 : b2 : board)

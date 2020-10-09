@@ -3,6 +3,7 @@ import Test.QuickCheck
 
 import PokerCards
 import PokerEvaluator
+import PokerHandsList
 
 straightFlushHand = [Card Ace Spades, Card Ten Spades, Card Six Diamonds, Card King Spades, Card Queen Spades, Card Three Clubs, Card Jack Spades]
 straightFlushHandExtra = [Card Ace Spades, Card Ten Spades, Card Six Diamonds, Card King Spades, Card Queen Spades, Card Nine Spades, Card Jack Spades]
@@ -140,3 +141,16 @@ main = hspec $ do
             (length . removeCard . newDeck) 1 == 51 `shouldBe` True
         it "can remove n cards" $ do
             (length . (removeCardN 5) . newDeck) 1 == 47 `shouldBe` True
+    describe "Equivalence Classes" $ do
+        it "works via the happy path" $ do
+            let e = equivClass (Card Ace Spades, Card Ten Clubs) (Card Two Hearts, Card Two Clubs)
+            fst e `shouldBe` (Card Ace Clubs, Card Ten Diamonds)
+            snd e `shouldBe` (Card Two Hearts, Card Two Diamonds)
+        it "orders cards correctly" $ do
+            let e = equivClass (Card Six Diamonds, Card Nine Spades) (Card King Spades, Card Ace Spades)
+            fst e `shouldBe` (Card Nine Clubs, Card Six Diamonds)
+            snd e `shouldBe` (Card Ace Clubs, Card King Clubs)
+        it "can tell equivalence classes apart" $ do
+            let e1 = equivClass (Card Ace Spades, Card Ten Clubs) (Card Two Hearts, Card Two Clubs)
+            let e2 = equivClass (Card Ace Hearts, Card Ten Spades) (Card Two Spades, Card Two Spades)
+            e1 == e2 `shouldBe` False

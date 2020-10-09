@@ -29,6 +29,7 @@ library
   exposed-modules:
       PokerCards
       PokerEvaluator
+      PokerHandsList
   other-modules:
       Paths_poker_simulation
   hs-source-dirs:
@@ -39,6 +40,7 @@ library
     , hspec
     , random
     , random-shuffle
+    , containers
   default-language: Haskell2010
 
 executable poker-simulation-exe
