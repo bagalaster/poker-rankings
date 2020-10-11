@@ -1,5 +1,9 @@
 module Main where
 
+import qualified Data.Set as Set
+import Data.List.Unique
+import Data.List (intercalate)
+
 import PokerCards
 import PokerEvaluator
 import PokerHandsList
@@ -29,19 +33,8 @@ means (w, t, l) = (w' / s, t' / s, l' / s)
 
 meanResults :: [Ordering] -> (Float, Float, Float)
 meanResults = means . sumResults
-        
-
-card1 = Card Ace Hearts
-card2 = Card King Spades
-card3 = Card Ace Spades 
-card4 = Card Queen Hearts
 
 main :: IO ()
 main = do
-    -- putStrLn $ show $ parsePatterns (card1 : card2 : (take 5 $ newDeckWithOut seed [card1, card2, card3, card4]))
-    -- putStrLn $ show $ parsePatterns (card3 : card4 : (take 5 $ newDeckWithOut seed [card1, card2, card3, card4]))
-    -- 43.86 CPU sec for 1e6 simulations ==> 0.4368 CPU sec for 1e4 simulations ==> 5.73 CPU hr for 1e4 simulations for all possible hands
-    let results = show $ meanResults $ map (simulateHand card1 card2 card3 card4) [1..1000]
-    putStrLn $ results
-
-    
+    -- should be 47008
+    putStrLn $ show $ Set.size allEquivClasses

@@ -14,14 +14,21 @@ data Card = Card {
 } deriving (Eq)
 instance Show Card where
     show card = "(" ++ (show $ value card) ++ ":" ++ (show $ suit card) ++ ")" 
+instance Ord Card where
+    compare x y
+        | value x /= value y = compare (value x) (value y)
+        | otherwise = compare (suit x) (suit y)
 
 type Deck = [Card]
 
+allCards :: Deck
+allCards = [Card v s | v <- [Two .. Ace], s <- [Clubs .. Spades]]
+
 newDeck :: Int -> Deck
-newDeck n  = shuffle' [Card v s | v <- [Two .. Ace], s <- [Clubs .. Spades]] 52 $ mkStdGen n
+newDeck n  = shuffle' allCards 52 $ mkStdGen n
 
 newDeckWithOut :: Int -> [Card] -> Deck
-newDeckWithOut n cards = shuffle' [Card v s | v <- [Two .. Ace], s <- [Clubs .. Spades], not (Card v s `elem` cards)] (52 - length cards) $ mkStdGen n
+newDeckWithOut n cards = shuffle' [c | c <- allCards, not (c `elem` cards)] (52 - length cards) $ mkStdGen n
 
 peekCard :: Deck -> Card
 peekCard deck = head deck
