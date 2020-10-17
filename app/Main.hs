@@ -2,16 +2,30 @@ module Main where
 
 import qualified Data.Set as Set
 import Data.List.Unique
-import Data.List (intercalate)
+import Data.List
+import Control.Parallel
+import Control.Parallel.Strategies
 
 import PokerCards
 import PokerEvaluator
 import PokerHandsList
- 
-simulateHand :: Card -> Card -> Card -> Card -> Int -> Ordering
-simulateHand a1 a2 b1 b2 n = evaluate (a1 : a2 : board) (b1 : b2 : board)
+
+kNumSimulations :: Int
+kNumSimulations = 1000000
+
+kCard1 = Card Ace Spades
+kCard2 = Card King Spades
+kCard3 = Card Eight Spades
+kCard4 = Card Eight Hearts
+
+simulateHand :: EquivalenceClass -> Int -> Ordering
+simulateHand ec n = evaluate (a1 : a2 : board) (b1 : b2 : board)
     where
         board = take 5 $ newDeckWithOut n [a1, a2, b1, b2]
+        a1 = (fst . fst) ec; a2 = (snd . fst) ec; b1 = (fst . snd) ec; b2 = (snd . snd) ec
+
+pSimulateHands :: EquivalenceClass -> [Int] -> [Ordering]
+pSimulateHands ec ns = parMap rpar (simulateHand ec) ns
 
 sumResults :: [Ordering] -> (Int, Int, Int)
 sumResults results = aux results (0, 0, 0)
@@ -36,5 +50,5 @@ meanResults = means . sumResults
 
 main :: IO ()
 main = do
-    -- should be 47008
-    putStrLn $ show $ Set.size allEquivClasses
+    let ec = equivClass (kCard1, kCard2) (kCard3, kCard4)
+    putStrLn $ show $ meanResults $ pSimulateHands ec [1..kNumSimulations]

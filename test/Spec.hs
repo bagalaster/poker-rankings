@@ -281,5 +281,7 @@ main = hspec $ do
             it "(a,b)u vs (c,d)u" $ do
                 let f3k = filterFn Ace King False Queen Jack False
                 length (filter f3k lst) `shouldBe` 7
+            it "all" $ do
+                length lst `shouldBe` 47008
                 
 
