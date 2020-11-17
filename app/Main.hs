@@ -21,7 +21,7 @@ instance ToRecord SizeRecord where
     toRecord (SizeRecord (ec, n))= record [toField (show ec), toField n]
 
 kNumSimulations :: Int
-kNumSimulations = 10000
+kNumSimulations = 100000
 
 kSeed :: Int
 kSeed = 42
@@ -30,7 +30,7 @@ kWinProbabilitiesOutFile :: [Char]
 kWinProbabilitiesOutFile = "data/outcome-distributions.csv"
 
 kWriteWinProbabilitiesFlag :: Bool
-kWriteWinProbabilitiesFlag = False
+kWriteWinProbabilitiesFlag = True
 
 writeWinProbabilities :: IO()
 writeWinProbabilities = BSL.writeFile kWinProbabilitiesOutFile $ encode $ map OutcomeRecord $ outcomeDistributions [kSeed .. ] kNumSimulations
