@@ -46,6 +46,11 @@ writeSizes = BSL.writeFile  kSizesOutFile $ encode $ map SizeRecord $ equivClass
 
 main :: IO ()
 main = do
-    when kWriteWinProbabilitiesFlag writeWinProbabilities
+    putStrLn "Writing sizes"
     when kWriteSizesFlag writeSizes
+    putStrLn "Finished writing sizes"
+    putStrLn "Writing win probabilities"
+    when kWriteWinProbabilitiesFlag writeWinProbabilities
+    putStrLn "Finished writing win probabilities"
+
     
