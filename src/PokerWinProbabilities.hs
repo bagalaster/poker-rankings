@@ -41,7 +41,7 @@ meanResults :: [Ordering] -> (Float, Float, Float)
 meanResults = means . sumResults
 
 computeOutcomeDistribution :: EquivalenceClass -> Int -> Int -> (Float, Float, Float)
-computeOutcomeDistribution ec seed n = meanResults $ pSimulateHands ec [seed .. (seed + n - 1)]
+computeOutcomeDistribution ec seed n = meanResults $ pSimulateHands ec [(n * seed) .. ((n + 1) * seed - 1)]
 
 outcomeDistributions :: [Int] -> Int -> [(EquivalenceClass, (Float, Float, Float))]
 outcomeDistributions seeds n = map (\(seed, ec) -> (ec, computeOutcomeDistribution ec seed n)) (zip seeds (Set.toList allEquivClasses))
